@@ -112,3 +112,12 @@ CREATE TABLE reward_survey_tb (
     reward_amount INT NOT NULL,               -- 리워드 금액
     FOREIGN KEY (survey_id) REFERENCES survey_tb(survey_id) ON DELETE CASCADE -- survey_tb의 외래키
 );
+
+-- 채팅 테이블
+CREATE TABLE chat_room_tb (
+    chat_room_id INT PRIMARY KEY AUTO_INCREMENT,         -- 채팅방 고유 ID
+    round_id INT NOT NULL,                               -- 라운드 ID (투표
+    archived_messages LONGBLOB,                          -- 종료 시점에 메시지 아카이빙
+    is_archived BOOLEAN DEFAULT FALSE,                   -- 아카이브 여부
+    FOREIGN KEY (round_id) REFERENCES round_tb(round_id) ON DELETE CASCADE
+);
