@@ -121,3 +121,5 @@ CREATE TABLE chat_room_tb (
     is_archived BOOLEAN DEFAULT FALSE,                   -- 아카이브 여부
     FOREIGN KEY (round_id) REFERENCES round_tb(round_id) ON DELETE CASCADE
 );
+
+-- 준수는 바보다
