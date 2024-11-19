@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 public class FavoriteDTO {
 
     @Data
-    class InsertDTO{
-
+    public static class InsertDTO{
         private String title;
         private String category;
         private Long userId;
