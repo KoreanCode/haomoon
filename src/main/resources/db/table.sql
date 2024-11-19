@@ -113,11 +113,11 @@ CREATE TABLE reward_survey_tb (
     FOREIGN KEY (survey_id) REFERENCES survey_tb(survey_id) ON DELETE CASCADE -- survey_tb의 외래키
 );
 
--- 채팅 테이블
 CREATE TABLE chat_room_tb (
-    chat_room_id INT PRIMARY KEY AUTO_INCREMENT,         -- 채팅방 고유 ID
-    round_id INT NOT NULL,                               -- 라운드 ID (투표
-    archived_messages LONGBLOB,                          -- 종료 시점에 메시지 아카이빙
+    chat_room_id INT PRIMARY KEY AUTO_INCREMENT,          -- 채팅방 고유 ID
+    round_id INT NOT NULL,                                -- 라운드 ID (투표 관련)
+    message_file_path VARCHAR(255),                      -- 메시지 파일 경로 (파일 저장 위치)
     is_archived BOOLEAN DEFAULT FALSE,                   -- 아카이브 여부
+    archived_at TIMESTAMP NULL,                          -- 아카이브 완료 시점
     FOREIGN KEY (round_id) REFERENCES round_tb(round_id) ON DELETE CASCADE
 );
