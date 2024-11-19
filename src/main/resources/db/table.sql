@@ -31,9 +31,9 @@ CREATE TABLE favorite_tb (
     favorite_id INT AUTO_INCREMENT PRIMARY KEY,          -- 이상형 고유 ID
     title VARCHAR(255) NOT NULL,                         -- 월드컵 제목
     category VARCHAR(50),                                -- 카테고리 (예: 영화, 음식 등)
-    creator_id BIGINT NOT NULL,                          -- 생성자 ID (사용자 ID와 연결)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,      -- 생성 날짜 및 시간
-    total_round INT NOT NULL,                            -- 총 몇강인지
+    user_id BIGINT NOT NULL,
+    total_round INT NOT NULL,-- 생성자 ID (사용자 ID와 연결)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,      -- 생성 날짜 및 시간                            -- 총 몇강인지
     FOREIGN KEY (creator_id) REFERENCES user_tb(id) ON DELETE CASCADE
 );
 
@@ -67,57 +67,12 @@ CREATE TABLE option_tb (
     FOREIGN KEY (favorite_id) REFERENCES favorite_tb(favorite_id) ON DELETE CASCADE
 );
 
--- 설문조사 테이블
-CREATE TABLE survey_tb (
-    survey_id INT PRIMARY KEY AUTO_INCREMENT,            -- 설문조사 ID
-    creater_ID INT,					-- 설문조사 생성자 ID -> user_ID
-    suervey_title VARCHAR(255) NOT NULL,                         -- 설문조사 제목
-    survey_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,      -- 생성일자
-    survey_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 업데이트 일자
-    survey_status ENUM('active', 'inactive') DEFAULT 'active',   -- 설문조사 상태 (활성화/비활성화)
-    survey_endtime TIMESTAMP,
-    survey_personnel INT, -- 설문조사 제한인원
-    FPREOGM KEY (creater_ID) REFERENCES user_tb(user_ID) ON DELETE CASCADE
-);
--- 설문조사 참가자 테이블
-CREATE TABLE survey_participants_tb (
-    participant_id INT PRIMARY KEY AUTO_INCREMENT,       -- 참가자 ID
-    survey_id INT,                                       -- 설문조사 ID
-    user_id INT,                                         -- 참가자 ID (user_tb의 user_ID)
-    participation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 참가 일자
-    FOREIGN KEY (survey_id) REFERENCES survey_tb(survey_id) ON DELETE CASCADE, -- 설문조사 외래키
-    FOREIGN KEY (user_id) REFERENCES user_tb(user_ID) ON DELETE CASCADE       -- 사용자 외래키
-);
--- 설문조사 질문 테이블
-CREATE TABLE survey_question_tb (
-    question_id INT PRIMARY KEY AUTO_INCREMENT,          -- 질문 ID
-    survey_id INT,                                       -- 설문조사 ID
-    question_text TEXT,                         -- 질문 내용
-    FOREIGN KEY (survey_id) REFERENCES survey_tb(survey_id) ON DELETE CASCADE -- 설문조사 외래키
-);
--- 설문조사 답변 테이블
-CREATE TABLE survey_answer_tb (
-    answer_id INT PRIMARY KEY AUTO_INCREMENT,          -- 응답 ID
-    question_id INT,                                   -- 질문 ID (survey_question_tb의 question_id)
-    participant_id INT,                                -- 참가자 ID (survey_participants_tb의 participant_id)
-    answer_text TEXT,                                  -- 응답 내용 (텍스트형 또는 객관식 답변 내용 저장)
-    answer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- 응답 일자
-    FOREIGN KEY (question_id) REFERENCES survey_question_tb(question_id) ON DELETE CASCADE, -- 질문 외래키
-    FOREIGN KEY (participant_id) REFERENCES survey_participants_tb(participant_id) ON DELETE CASCADE -- 참가자 외래키
-);
--- 리워드 설문조사 테이블
-CREATE TABLE reward_survey_tb (
-    reward_survey_id INT PRIMARY KEY AUTO_INCREMENT,     -- 리워드형 설문조사 고유 ID
-    survey_id INT,                                       -- 일반 설문조사의 ID
-    reward_amount INT NOT NULL,               -- 리워드 금액
-    FOREIGN KEY (survey_id) REFERENCES survey_tb(survey_id) ON DELETE CASCADE -- survey_tb의 외래키
-);
-
 -- 채팅 테이블
 CREATE TABLE chat_room_tb (
-    chat_room_id INT PRIMARY KEY AUTO_INCREMENT,         -- 채팅방 고유 ID
-    round_id INT NOT NULL,                               -- 라운드 ID (투표
-    archived_messages LONGBLOB,                          -- 종료 시점에 메시지 아카이빙
+    chat_room_id INT PRIMARY KEY AUTO_INCREMENT,          -- 채팅방 고유 ID
+    round_id INT NOT NULL,                                -- 라운드 ID (투표 관련)
+    message_file_path VARCHAR(255),                      -- 메시지 파일 경로 (파일 저장 위치)
     is_archived BOOLEAN DEFAULT FALSE,                   -- 아카이브 여부
+    archived_at TIMESTAMP NULL,                          -- 아카이브 완료 시점
     FOREIGN KEY (round_id) REFERENCES round_tb(round_id) ON DELETE CASCADE
 );
