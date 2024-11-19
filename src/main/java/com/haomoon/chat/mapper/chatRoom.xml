@@ -1,4 +1,4 @@
-<mapper namespace="com.haomoon.chat.mapper.ChatRoomMapper">
+<mapper namespace="com.haomoon.chat.repository.ChatRoomRepository">
 
     <!-- 채팅방 저장 -->
     <insert id="saveChatRoom" parameterType="com.haomoon.chat.dto.ChatRoomDTO">
