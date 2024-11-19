@@ -617,5 +617,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.bin
+*.lock
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,intellij,vs,macos,windows,java
