@@ -2,8 +2,11 @@ package com.haomoon.chat.repository;
 
 
 import com.haomoon.chat.dto.ChatRoomDTO;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository
 public interface ChatRoomRepository {
 
 
